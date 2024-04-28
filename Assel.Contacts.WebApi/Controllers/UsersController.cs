@@ -1,5 +1,5 @@
-﻿using Assel.Contacts.Infrastructure.Entities;
-using Assel.Contacts.WebApi.Models;
+﻿using Assel.Contacts.Domain.Entities;
+using Assel.Contacts.Domain.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

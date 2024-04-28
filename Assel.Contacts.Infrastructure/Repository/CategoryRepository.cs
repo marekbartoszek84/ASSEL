@@ -1,15 +1,9 @@
-﻿using Assel.Contacts.Infrastructure.Entities;
+﻿using Assel.Contacts.Domain.Entities;
+using Assel.Contacts.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Assel.Contacts.Infrastructure.Repository
 {
-    public interface ICategoryRepository
-    {
-        Task<IEnumerable<Category>> GetAllAsync();
-        Task<Category?> GetAsync(Guid id);
-        Task AddSubcategoryAsync(SubCategory subCategory);
-    }
-
     public class CategoryRepository : ICategoryRepository
     {
         protected ContactDbContext context;

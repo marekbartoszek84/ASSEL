@@ -1,20 +1,11 @@
-﻿using Assel.Contacts.Infrastructure.Entities;
-using Assel.Contacts.Infrastructure.Repository;
-using Assel.Contacts.WebApi.Models;
+﻿using Assel.Contacts.Domain.Entities;
+using Assel.Contacts.Domain.Interfaces;
+using Assel.Contacts.Domain.Models;
 using AutoMapper;
 using CSharpFunctionalExtensions;
 
-namespace Assel.Contacts.WebApi.Services
+namespace Assel.Contacts.Domain.Services.Implementations
 {
-    public interface IContactService
-    {
-        Task<Result<IEnumerable<ContactListResponse>>> GetAllAsync();
-        Task<Result<ContactResponse>> GetAsync(Guid id);
-        Task<Result> AddAsync(ContactRequest contactRequest);
-        Task<Result> UpdateAsync(Guid id, ContactRequest contact);
-        Task<Result> DeleteAsync(Guid id);
-    }
-
     public class ContactService : IContactService
     {
         private readonly ICategoryRepository _categoryRepository;

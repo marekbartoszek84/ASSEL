@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Assel.Contacts.Domain.Entities;
 
-namespace Assel.Contacts.Infrastructure.Entities.Configuration
+namespace Assel.Contacts.Infrastructure.Entities
 {
     public class SubCategoryConfiguration : IEntityTypeConfiguration<SubCategory>
     {

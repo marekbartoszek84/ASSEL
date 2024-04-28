@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Assel.Contacts.WebApi.Models
+namespace Assel.Contacts.Domain.Models
 {
     public class ContactRequest
     {

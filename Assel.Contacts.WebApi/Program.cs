@@ -1,14 +1,16 @@
+using Assel.Contacts.Domain.Entities;
+using Assel.Contacts.Domain.Interfaces;
 using Assel.Contacts.Infrastructure;
-using Assel.Contacts.Infrastructure.Entities;
 using Assel.Contacts.Infrastructure.Repository;
 using Assel.Contacts.WebApi;
 using Assel.Contacts.WebApi.Extensions;
-using Assel.Contacts.WebApi.Services;
+using Assel.Contacts.Domain.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Assel.Contacts.Domain.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +50,7 @@ builder.Services.AddScoped<JwtHandler>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IContactService, ContactService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddControllers();
 

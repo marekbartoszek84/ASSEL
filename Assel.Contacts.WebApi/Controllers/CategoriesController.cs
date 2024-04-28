@@ -1,7 +1,6 @@
-﻿using Assel.Contacts.Infrastructure.Entities;
-using Assel.Contacts.Infrastructure.Repository;
-using Assel.Contacts.WebApi.Models;
-using AutoMapper;
+﻿using Assel.Contacts.Domain.Models;
+using Assel.Contacts.Domain.Services;
+using Assel.Contacts.WebApi.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,35 +11,28 @@ namespace Assel.Contacts.WebApi.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly IMapper _mapper;
+        private readonly ICategoryService _categoryService;
 
-        public CategoriesController(ICategoryRepository categoryRepository, IMapper mapper)
+        public CategoriesController(ICategoryService categoryService)
         {
-            _categoryRepository = categoryRepository;
-            _mapper = mapper;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetCategoriesAsync()
         {
-            var result = await _categoryRepository.GetAllAsync();
+            var result = await _categoryService.GetAllAsync();
 
-            return Ok(result);
+            return result.ToActionResult(Ok, errors => BadRequest(errors));
         }
 
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> AddAsync(SubCategoryRequest subCategoryRequest)
         {
-            var subCategory = _mapper.Map<SubCategory>(subCategoryRequest);
+            var result = await _categoryService.AddSubcategoryAsync(subCategoryRequest);
 
-            if (subCategory != null)
-            {
-                await _categoryRepository.AddSubcategoryAsync(subCategory);
-            }
-
-            return Ok();
+            return result.ToActionResult(Ok, errors => BadRequest(errors));
         }
     }
 }

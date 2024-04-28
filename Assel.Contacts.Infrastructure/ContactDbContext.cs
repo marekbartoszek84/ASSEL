@@ -1,5 +1,5 @@
-﻿using Assel.Contacts.Infrastructure.Entities;
-using Assel.Contacts.Infrastructure.Entities.Configuration;
+﻿using Assel.Contacts.Domain.Entities;
+using Assel.Contacts.Infrastructure.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

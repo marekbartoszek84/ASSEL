@@ -1,18 +1,9 @@
-﻿using Assel.Contacts.Infrastructure.Entities;
+﻿using Assel.Contacts.Domain.Entities;
+using Assel.Contacts.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Assel.Contacts.Infrastructure.Repository
 {
-    public interface IContactRepository
-    {
-        Task<IEnumerable<Contact>> GetAllAsync();
-        Task<Contact> GetDetailsAsync(Guid id);
-        Task<Contact> GetByEmailAsync(string email);
-        Task AddAsync(Contact contact);
-        Task UpdateAsync(Contact contact);
-        Task DeleteAsync(Guid id);
-    }
-
     public class ContactRepository : IContactRepository
     {
         protected ContactDbContext context;

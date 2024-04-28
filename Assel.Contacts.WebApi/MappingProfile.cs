@@ -1,5 +1,5 @@
-﻿using Assel.Contacts.Infrastructure.Entities;
-using Assel.Contacts.WebApi.Models;
+﻿using Assel.Contacts.Domain.Entities;
+using Assel.Contacts.Domain.Models;
 using AutoMapper;
 
 namespace Assel.Contacts.WebApi
@@ -17,6 +17,8 @@ namespace Assel.Contacts.WebApi
                 .ForMember(dest => dest.SubCategory, opt => opt.MapFrom(src => src.SubCategoryRequest));
             CreateMap<SubCategoryRequest, SubCategory>();
             CreateMap<SubCategory, SubCategoryRequest>();
+            CreateMap<Category, CategoryResponse>();
+            CreateMap<SubCategory, SubCategoryResponse>();
         }
     }
 }

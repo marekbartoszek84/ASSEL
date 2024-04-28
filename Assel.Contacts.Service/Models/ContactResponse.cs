@@ -1,6 +1,4 @@
-﻿using Assel.Contacts.Infrastructure.Entities;
-
-namespace Assel.Contacts.WebApi.Models
+﻿namespace Assel.Contacts.Domain.Models
 {
     public class ContactResponse
     {
@@ -10,9 +8,9 @@ namespace Assel.Contacts.WebApi.Models
         public string? Email { get; set; }
         public string? Password { get; set; }
         public Guid? CategoryId { get; set; }
-        public Category? Category { get; set; }
+        public CategoryResponse? Category { get; set; }
         public Guid? SubCategoryId { get; set; }
-        public SubCategory? SubCategory { get; set; }
+        public SubCategoryResponse? SubCategory { get; set; }
         public string? Phone { get; set; }
         public DateTime? DateOfBirth { get; set; }
     }

@@ -1,5 +1,5 @@
-﻿using Assel.Contacts.WebApi.Models;
-using Assel.Contacts.WebApi.Services;
+﻿using Assel.Contacts.Domain.Models;
+using Assel.Contacts.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Assel.Contacts.WebApi.Extensions;

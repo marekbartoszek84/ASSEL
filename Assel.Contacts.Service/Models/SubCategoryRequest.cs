@@ -1,4 +1,4 @@
-﻿namespace Assel.Contacts.WebApi.Models
+﻿namespace Assel.Contacts.Domain.Models
 {
     public class SubCategoryRequest
     {
