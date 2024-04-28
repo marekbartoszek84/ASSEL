@@ -31,18 +31,20 @@ namespace Assel.University.Console.Tests
                 BaseAddress = new Uri("http://test.test/"),
             };
 
-            HttpCustomClient.Client = httpClient;
+            var customClient = new HttpCustomClient();
+            customClient.Client = httpClient;
 
             // Act
-            var result =  HttpCustomClient.GetData().Result;
+            var result = customClient.GetData().Result;
 
             // Assert
             result.Should().NotBeNull();
             result.IsSuccess.Should().Be(true);
+            result.Value.Count.Should().Be(2);
         }
 
         [Test]
-        public void Should_Return_Failed_Request_Forbidden()
+        public void Should_Failed_HttpClient_Return_Request_Forbidden()
         {
             // Arrange
             var handlerMock = new Mock<HttpMessageHandler>();
@@ -64,14 +66,51 @@ namespace Assel.University.Console.Tests
                 BaseAddress = new Uri("http://test.test/"),
             };
 
-            HttpCustomClient.Client = httpClient;
+            var customClient = new HttpCustomClient();
+            customClient.Client = httpClient;
 
             // Act
-            var result = HttpCustomClient.GetData().Result;
+            var result = customClient.GetData().Result;
 
             // Assert
             result.Should().NotBeNull();
             result.IsSuccess.Should().Be(false);
+        }
+
+        [Test]
+        public void Return_University_For_Missing_Fields()
+        {
+            // Arrange
+            var handlerMock = new Mock<HttpMessageHandler>();
+            handlerMock
+               .Protected()
+               .Setup<Task<HttpResponseMessage>>(
+                  "SendAsync",
+                  ItExpr.IsAny<HttpRequestMessage>(),
+                  ItExpr.IsAny<CancellationToken>()
+               )
+               .ReturnsAsync(new HttpResponseMessage()
+               {
+                   StatusCode = HttpStatusCode.OK,
+                   Content = new StringContent("[{\"data\": \"Middlesbrough College\",\"country\": \"United Kingdom\"}]"),
+               })
+               .Verifiable();
+
+            var httpClient = new HttpClient(handlerMock.Object)
+            {
+                BaseAddress = new Uri("http://test.test/"),
+            };
+
+            var customClient = new HttpCustomClient();
+            customClient.Client = httpClient;
+
+            // Act
+            var result = customClient.GetData().Result;
+
+            // Assert
+            result.Should().NotBeNull();
+            result.IsSuccess.Should().Be(true);
+            result.Value.Count.Should().Be(1);
         }
     }
 }

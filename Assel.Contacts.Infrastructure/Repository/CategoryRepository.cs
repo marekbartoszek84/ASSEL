@@ -25,7 +25,7 @@ namespace Assel.Contacts.Infrastructure.Repository
         public async Task AddSubcategoryAsync(SubCategory subCategory)
         {
             await context.SubCategories.AddAsync(subCategory);
-            //await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
         public async Task<Category?> GetAsync(Guid id)

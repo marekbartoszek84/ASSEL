@@ -3,12 +3,12 @@ using System.Text.Json;
 
 namespace Assel.University.Console
 {
-    public static class HttpCustomClient
+    public class HttpCustomClient
     {
         public static readonly string baseAddress = "http://universities.hipolabs.com/search?name=middle";
-        public static HttpClient Client = new HttpClient();
+        public HttpClient? Client { get; set; }
 
-        public static async Task<Result<IEnumerable<University>>> GetData()
+        public async Task<Result<List<University>>> GetData()
         {
             using (var client = Client ?? new HttpClient())
             {
@@ -22,17 +22,17 @@ namespace Assel.University.Console
                     {
                         PropertyNameCaseInsensitive = true,
                     };
-                    var result = JsonSerializer.Deserialize<List<University>>(jsonResponse, options).Where((u) => u.Country != null && u.Country == "United Kingdom");
+                    var result = JsonSerializer.Deserialize<List<University>>(jsonResponse, options).Where((u) => u.Country != null && u.Country == "United Kingdom").ToList();
 
                     return Result.Success(result);
                 }
                 catch (HttpRequestException rex)
                 {
-                    return Result.Failure<IEnumerable<University>>(nameof(HttpRequestException) + ": " + rex.Message);
+                    return Result.Failure<List<University>>(nameof(HttpRequestException) + ": " + rex.Message);
                 }
                 catch (Exception ex)
                 {
-                    return Result.Failure<IEnumerable<University>>(nameof(Exception) + ": " + ex.Message);
+                    return Result.Failure<List<University>>(nameof(Exception) + ": " + ex.Message);
                 }
             }
         }

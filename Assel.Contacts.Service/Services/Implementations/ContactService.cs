@@ -48,7 +48,7 @@ namespace Assel.Contacts.Domain.Services.Implementations
                 return Result.Failure(Errors.InvalidCategoryIdError);
             }
 
-            if (!CheckSubCategory(contactRequest.CategoryId, contactRequest.SubCategoryId).Result)
+            if (!CheckSubCategory(contactRequest.CategoryId, contactRequest.SubCategoryId, contactRequest.SubCategoryRequest).Result)
             {
                 return Result.Failure(Errors.InvalidSubCategoryError);
             }
@@ -105,7 +105,7 @@ namespace Assel.Contacts.Domain.Services.Implementations
                 return Result.Failure(Errors.InvalidCategoryIdError);
             }
 
-            if (!CheckSubCategory(contactRequest.CategoryId, contactRequest.SubCategoryId).Result)
+            if (!CheckSubCategory(contactRequest.CategoryId, contactRequest.SubCategoryId, contactRequest?.SubCategoryRequest).Result)
             {
                 return Result.Failure(Errors.InvalidSubCategoryError);
             }
@@ -131,16 +131,26 @@ namespace Assel.Contacts.Domain.Services.Implementations
             return true;
         }
 
-        private async Task<bool> CheckSubCategory(Guid? categoryId, Guid? subCategoryId)
+        private async Task<bool> CheckSubCategory(Guid? categoryId, Guid? subCategoryId, SubCategoryRequest subCategoryRequest)
         {
+            if (categoryId == null)
+                return false;
+
             if (subCategoryId != null)
             {
-                if (categoryId == null)
-                    return false;
-
                 var category = await _categoryRepository.GetAsync(categoryId.Value);
 
-                if (category == null || !category.SubCategories.Any(s => s.Id == subCategoryId.Value))
+                if (category == null || (!category.SubCategories.Any(s => s.Id == subCategoryId.Value)))
+                {
+                    return false;
+                }
+            }
+
+            if (subCategoryRequest != null && subCategoryRequest != null)
+            {
+                var category = await _categoryRepository.GetAsync(categoryId.Value);
+
+                if (category == null || !category.IsOwnSubcategoryAllowed)
                 {
                     return false;
                 }

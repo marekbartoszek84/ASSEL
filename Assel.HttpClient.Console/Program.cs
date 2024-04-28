@@ -1,8 +1,9 @@
 ﻿using Assel.University.Console;
 
 Console.WriteLine("Hello, HttpClient");
+var client = new HttpCustomClient();
 
-var result = await HttpCustomClient.GetData();
+var result = await client.GetData();
 
 if (result.IsFailure)
 {
