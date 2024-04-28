@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "YdFEDAXmS8ucwl8Fk+EcSH7ekBV/T3uszWCpjG2OoEL2MGn4lsXil8YuCqMSPSSSGUiRD+9k9yWGmA6ICpO0jg==",
+  "success": true,
+  "projectFilePath": "C:\\ASSEL\\Assel\\Assel.HttpClient.Console\\Assel.University.Console.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Marek Bartoszek\\.nuget\\packages\\csharpfunctionalextensions\\2.41.0\\csharpfunctionalextensions.2.41.0.nupkg.sha512",
+    "C:\\Users\\Marek Bartoszek\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\Marek Bartoszek\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
+    "C:\\Users\\Marek Bartoszek\\.nuget\\packages\\system.text.json\\8.0.3\\system.text.json.8.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
