@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Assel.Contacts.Repository.Entities
+namespace Assel.Contacts.Infrastructure.Entities
 {
     public class User : IdentityUser
     {

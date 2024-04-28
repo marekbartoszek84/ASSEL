@@ -1,5 +1,4 @@
-﻿using Assel.Contacts.Repository.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Assel.Contacts.Infrastructure.Entities;
 
 namespace Assel.Contacts.WebApi.Models
 {

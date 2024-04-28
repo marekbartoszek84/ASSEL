@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Assel.Contacts.Repository\Assel.Contacts.Repository.csproj" />
+    <ProjectReference Include="..\Assel.Contacts.Infrastructure\Assel.Contacts.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

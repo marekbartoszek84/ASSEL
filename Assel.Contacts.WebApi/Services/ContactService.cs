@@ -1,5 +1,5 @@
-﻿using Assel.Contacts.Repository.Entities;
-using Assel.Contacts.Repository.Repository;
+﻿using Assel.Contacts.Infrastructure.Entities;
+using Assel.Contacts.Infrastructure.Repository;
 using Assel.Contacts.WebApi.Models;
 using AutoMapper;
 using CSharpFunctionalExtensions;
@@ -8,17 +8,15 @@ namespace Assel.Contacts.WebApi.Services
 {
     public interface IContactService
     {
-        Result<IEnumerable<ContactListResponse>> GetAll();
-        Result<ContactResponse> GetDetails(Guid id);
-        Result Add(ContactRequest contactRequest);
-        Result Update(Guid id, ContactRequest contact);
-        Result Delete(Guid id);
+        Task<Result<IEnumerable<ContactListResponse>>> GetAllAsync();
+        Task<Result<ContactResponse>> GetAsync(Guid id);
+        Task<Result> AddAsync(ContactRequest contactRequest);
+        Task<Result> UpdateAsync(Guid id, ContactRequest contact);
+        Task<Result> DeleteAsync(Guid id);
     }
 
     public class ContactService : IContactService
     {
-        private static readonly string[] AllowedCategories = { "Sluzbowy", "Prywatny", "Inny" };
-
         private readonly ICategoryRepository _categoryRepository;
         private readonly IContactRepository _contactRepository;
         private readonly IMapper _mapper;
@@ -30,18 +28,13 @@ namespace Assel.Contacts.WebApi.Services
             _mapper = mapper;
         }
 
-        public Result Add(ContactRequest contactRequest)
+        public async Task<Result> AddAsync(ContactRequest contactRequest)
         {
             var contact = _mapper.Map<Contact>(contactRequest);
 
-            if (contact == null)
-            {
-                return Result.Failure(Errors.ContactRequestRequiredError);
-            }
-
             if (!string.IsNullOrWhiteSpace(contactRequest.Email))
             {
-                var existedContact = _contactRepository.GetByEmail(contactRequest.Email);
+                var existedContact = await _contactRepository.GetByEmailAsync(contactRequest.Email);
 
                 if (existedContact != null)
                 {
@@ -51,57 +44,57 @@ namespace Assel.Contacts.WebApi.Services
 
             if (contactRequest.CategoryId != null)
             {
-                var category = _categoryRepository.Get(contactRequest.CategoryId.Value);
+                var category = await _categoryRepository.GetAsync(contactRequest.CategoryId.Value);
                 
-                if (category == null || !AllowedCategories.Contains(category.Name))
+                if (category == null)
                 {
                     return Result.Failure(Errors.InvalidCategoryIdError);
                 }
             }
 
-            if (!CheckCategoryId(contactRequest.CategoryId))
+            if (!CheckCategoryId(contactRequest.CategoryId).Result)
             {
                 return Result.Failure(Errors.InvalidCategoryIdError);
             }
 
-            if (!CheckSubCategory(contactRequest.CategoryId, contactRequest.SubCategoryId))
+            if (!CheckSubCategory(contactRequest.CategoryId, contactRequest.SubCategoryId).Result)
             {
                 return Result.Failure(Errors.InvalidSubCategoryError);
             }
 
-            _contactRepository.Add(contact);
+            await _contactRepository.AddAsync(contact);
             return Result.Success();
         }
 
-        public Result Delete(Guid id)
+        public async Task<Result> DeleteAsync(Guid id)
         {
-            var existedContact = _contactRepository.GetDetails(id);
+            var existedContact = _contactRepository.GetDetailsAsync(id);
 
             if (existedContact == null)
             {
                 return Result.Failure(Errors.ContactDoesNotExistError);
             }
 
-            _contactRepository.Delete(id);
+            await _contactRepository.DeleteAsync(id);
             return Result.Success();
         }
 
-        public Result<IEnumerable<ContactListResponse>> GetAll()
+        public async Task<Result<IEnumerable<ContactListResponse>>> GetAllAsync()
         {
-            var contacts = _contactRepository.GetAll();
+            var contacts = await _contactRepository.GetAllAsync();
 
             return Result.Success(_mapper.Map<IEnumerable<ContactListResponse>>(contacts));
         }
 
-        public Result<ContactResponse> GetDetails(Guid id)
+        public async Task<Result<ContactResponse>> GetAsync(Guid id)
         {
-            var contact = _contactRepository.GetDetails(id);
+            var contact = await _contactRepository.GetDetailsAsync(id);
             return Result.Success(_mapper.Map<ContactResponse>(contact));
         }
 
-        public Result Update(Guid id, ContactRequest contactRequest)
+        public async Task<Result> UpdateAsync(Guid id, ContactRequest contactRequest)
         {
-            var contact = _contactRepository.GetDetails(id);
+            var contact = await _contactRepository.GetDetailsAsync(id);
 
             if (contact == null)
             {
@@ -110,35 +103,35 @@ namespace Assel.Contacts.WebApi.Services
 
             if (contactRequest.Email != contact.Email && !string.IsNullOrWhiteSpace(contactRequest.Email) && contactRequest.Email.ToLower() != contact.Email.ToLower())
             {
-                var existingContactEmail = _contactRepository.GetByEmail(contactRequest.Email);
+                var existingContactEmail = await _contactRepository.GetByEmailAsync(contactRequest.Email);
 
                 if (existingContactEmail != null)
                     return Result.Failure(Errors.ContactWithRequestedEmailExistsError);
             }
 
-            if (!CheckCategoryId(contactRequest.CategoryId))
+            if (!CheckCategoryId(contactRequest.CategoryId).Result)
             {
                 return Result.Failure(Errors.InvalidCategoryIdError);
             }
 
-            if (!CheckSubCategory(contactRequest.CategoryId, contactRequest.SubCategoryId))
+            if (!CheckSubCategory(contactRequest.CategoryId, contactRequest.SubCategoryId).Result)
             {
                 return Result.Failure(Errors.InvalidSubCategoryError);
             }
 
             _mapper.Map(contactRequest, contact);
 
-            _contactRepository.Update(contact);
+            await _contactRepository.UpdateAsync(contact);
             return Result.Success();
         }
 
-        private bool CheckCategoryId(Guid? categoryId)
+        private async Task<bool> CheckCategoryId(Guid? categoryId)
         {
             if (categoryId != null)
             {
-                var category = _categoryRepository.Get(categoryId.Value);
+                var category = await _categoryRepository.GetAsync(categoryId.Value);
 
-                if (category == null || !AllowedCategories.Contains(category.Name))
+                if (category == null)
                 {
                     return false;
                 }
@@ -147,14 +140,14 @@ namespace Assel.Contacts.WebApi.Services
             return true;
         }
 
-        private bool CheckSubCategory(Guid? categoryId, Guid? subCategoryId)
+        private async Task<bool> CheckSubCategory(Guid? categoryId, Guid? subCategoryId)
         {
             if (subCategoryId != null)
             {
                 if (categoryId == null)
                     return false;
 
-                var category = _categoryRepository.Get(categoryId.Value);
+                var category = await _categoryRepository.GetAsync(categoryId.Value);
 
                 if (category == null || !category.SubCategories.Any(s => s.Id == subCategoryId.Value))
                 {

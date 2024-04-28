@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Assel.Contacts.Repository.Migrations
+namespace Assel.Contacts.Infrastructure.Migrations
 {
     public partial class Create_Database_Tables : Migration
     {

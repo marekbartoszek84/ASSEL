@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Assel.Contacts.Repository.Entities
+namespace Assel.Contacts.Infrastructure.Entities
 {
     public class Contact
     {

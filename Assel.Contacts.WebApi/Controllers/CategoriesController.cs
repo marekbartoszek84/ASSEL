@@ -1,5 +1,5 @@
-﻿using Assel.Contacts.Repository.Entities;
-using Assel.Contacts.Repository.Repository;
+﻿using Assel.Contacts.Infrastructure.Entities;
+using Assel.Contacts.Infrastructure.Repository;
 using Assel.Contacts.WebApi.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -22,22 +22,22 @@ namespace Assel.Contacts.WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCategories()
+        public async Task<IActionResult> GetCategoriesAsync()
         {
-            var result = _categoryRepository.GetAll();
+            var result = await _categoryRepository.GetAllAsync();
 
             return Ok(result);
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add(SubCategoryRequest subCategoryRequest)
+        public async Task<IActionResult> AddAsync(SubCategoryRequest subCategoryRequest)
         {
             var subCategory = _mapper.Map<SubCategory>(subCategoryRequest);
 
             if (subCategory != null)
             {
-                _categoryRepository.AddSubcategory(subCategory);
+                await _categoryRepository.AddSubcategoryAsync(subCategory);
             }
 
             return Ok();

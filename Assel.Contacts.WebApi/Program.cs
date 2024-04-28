@@ -1,6 +1,6 @@
-using Assel.Contacts.Repository;
-using Assel.Contacts.Repository.Entities;
-using Assel.Contacts.Repository.Repository;
+using Assel.Contacts.Infrastructure;
+using Assel.Contacts.Infrastructure.Entities;
+using Assel.Contacts.Infrastructure.Repository;
 using Assel.Contacts.WebApi;
 using Assel.Contacts.WebApi.Extensions;
 using Assel.Contacts.WebApi.Services;

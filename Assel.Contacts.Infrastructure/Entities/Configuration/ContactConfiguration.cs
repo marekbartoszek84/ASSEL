@@ -1,12 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
-namespace Assel.Contacts.Repository.Entities.Configuration
+namespace Assel.Contacts.Infrastructure.Entities.Configuration
 {
     public class ContactConfiguration : IEntityTypeConfiguration<Contact>
     {
         public void Configure(EntityTypeBuilder<Contact> builder)
         {
+            builder
+                .HasIndex(c => c.Email)
+                .IsUnique();
+
             builder.HasData
             (
                 new Contact

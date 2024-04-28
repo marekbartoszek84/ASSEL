@@ -1,4 +1,4 @@
-﻿namespace Assel.Contacts.Repository.Entities
+﻿namespace Assel.Contacts.Infrastructure.Entities
 {
     public class SubCategory
     {

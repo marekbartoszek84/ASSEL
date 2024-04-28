@@ -1,9 +1,9 @@
-﻿using Assel.Contacts.Repository.Entities;
-using Assel.Contacts.Repository.Entities.Configuration;
+﻿using Assel.Contacts.Infrastructure.Entities;
+using Assel.Contacts.Infrastructure.Entities.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Assel.Contacts.Repository
+namespace Assel.Contacts.Infrastructure
 {
     public class ContactDbContext : IdentityDbContext<User>
     {

@@ -18,42 +18,42 @@ namespace Assel.Contacts.WebApi.Controllers
             _contactService = contactService;
         }
 
-        [HttpGet("GetAll")]
-        public IActionResult GetAll()
+        [HttpGet]
+        public async Task<IActionResult> GetAsync()
         {
-            var result = _contactService.GetAll();
+            var result = await _contactService.GetAllAsync();
 
             return result.ToActionResult(Ok, errors => BadRequest(errors));
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get([FromRoute] Guid id)
+        public async Task<IActionResult> GetAsync([FromRoute] Guid id)
         {
-            var result = _contactService.GetDetails(id);
+            var result = await _contactService.GetAsync(id);
 
             return result.ToActionResult(Ok, errors => BadRequest(errors));
         }
 
         [HttpPost]
-        public IActionResult Add(ContactRequest contactRequest)
+        public async Task<IActionResult> AddAsync(ContactRequest contactRequest)
         {
-            var result = _contactService.Add(contactRequest);
+            var result = await _contactService.AddAsync(contactRequest);
 
             return result.ToActionResult(Ok, errors => BadRequest(errors));
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update([FromRoute] Guid id, ContactRequest contactRequest)
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, ContactRequest contactRequest)
         {
-            var result = _contactService.Update(id, contactRequest);
+            var result = await _contactService.UpdateAsync(id, contactRequest);
 
             return result.ToActionResult(Ok, errors => BadRequest(errors));
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
-            var result = _contactService.Delete(id);
+            var result = await _contactService.DeleteAsync(id);
 
             return result.ToActionResult(Ok, errors => BadRequest(errors));
         }

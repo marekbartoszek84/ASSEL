@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
-namespace Assel.Contacts.Repository.Entities.Configuration
+namespace Assel.Contacts.Infrastructure.Entities.Configuration
 {
     public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
@@ -12,17 +12,20 @@ namespace Assel.Contacts.Repository.Entities.Configuration
                 new Category
                 {
                     Id = new Guid("e385f467-b1ee-4df9-86ba-c91c5e3dccb7"),
-                    Name = "Sluzbowy"
+                    Name = "Sluzbowy",
+                    IsOwnSubcategoryAllowed = false
                 },
                 new Category
                 {
                     Id = new Guid("7c24fd27-34dd-4d51-b24f-e89b5f636b18"),
-                    Name = "Prywatny"
+                    Name = "Prywatny",
+                    IsOwnSubcategoryAllowed = false
                 },
                 new Category
                 {
                     Id = new Guid("db9d8f23-1202-436b-9eae-49aa590a1e2a"),
-                    Name = "Inny"
+                    Name = "Inny",
+                    IsOwnSubcategoryAllowed = true
                 }
             );
         }

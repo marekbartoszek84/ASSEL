@@ -1,4 +1,4 @@
-﻿using Assel.Contacts.Repository.Entities;
+﻿using Assel.Contacts.Infrastructure.Entities;
 using Assel.Contacts.WebApi.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
